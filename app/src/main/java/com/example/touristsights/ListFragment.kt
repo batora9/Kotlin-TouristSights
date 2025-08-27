@@ -43,6 +43,12 @@ class ListFragment : Fragment() {
                                 putInt(ROW_POSITION, position)
                             }
                             manager.beginTransaction().apply {
+                                setCustomAnimations(
+                                    android.R.anim.slide_in_left,
+                                    android.R.anim.slide_out_right,
+                                    android.R.anim.fade_in,
+                                    android.R.anim.fade_out
+                                )
                                 replace(R.id.content, fragment, tag)
                                 addToBackStack(null)
                             }.commit()
