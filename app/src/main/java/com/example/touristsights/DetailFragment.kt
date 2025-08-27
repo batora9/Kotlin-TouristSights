@@ -30,8 +30,16 @@ class DetailFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // backButtonで戻る
+        binding.backButton.setOnClickListener {
+//            fragmentManager?.popBackStack()
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
         val sights = getSights(resources)
         binding.detailKind.text = sights[position].kind
         binding.detailName.text = sights[position].name

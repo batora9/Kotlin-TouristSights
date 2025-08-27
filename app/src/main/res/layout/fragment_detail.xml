@@ -8,6 +8,20 @@
     app:layoutDescription="@xml/fragment_detail_scene"
     tools:context=".DetailFragment">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:src="@drawable/baseline_arrow_back_24"
+        app:backgroundTint="@color/material_on_surface_disabled"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:maxImageSize="32dp"
+        app:tint="@android:color/white" />
+
     <ImageView
         android:id="@+id/detailImage"
         android:layout_width="0dp"
