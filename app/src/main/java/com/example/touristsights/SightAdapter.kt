@@ -13,6 +13,11 @@ class SightAdapter (
     private val sights: List<Sight>,
 ) : RecyclerView.Adapter<SightAdapter.ViewHolder>() {
 
+    private var listener: ((Int) -> Unit)? = null
+    fun setOnItemClickListener(listener: (Int) -> Unit) {
+        this.listener = listener
+    }
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.name)
         val image: ImageView = view.findViewById(R.id.image)
@@ -35,6 +40,9 @@ class SightAdapter (
             context.packageName
         )
         holder.image.setImageResource(imageResource)
+        holder.itemView.setOnClickListener {
+            listener?.invoke(position)
+        }
     }
 
     override fun getItemCount(): Int = sights.size

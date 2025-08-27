@@ -2,7 +2,6 @@ package com.example.touristsights
 import android.content.res.Resources
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
