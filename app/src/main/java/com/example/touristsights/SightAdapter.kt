@@ -10,12 +10,19 @@ import androidx.recyclerview.widget.RecyclerView
 
 class SightAdapter (
     private val context: Context,
-    private val sights: List<Sight>,
+    private var sights: MutableList<Sight>,
 ) : RecyclerView.Adapter<SightAdapter.ViewHolder>() {
 
     private var listener: ((Int) -> Unit)? = null
     fun setOnItemClickListener(listener: (Int) -> Unit) {
         this.listener = listener
+    }
+
+    // データを更新するための関数を追加
+    fun updateSights(newSights: List<Sight>) {
+        sights.clear()
+        sights.addAll(newSights)
+        notifyDataSetChanged()
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -39,6 +46,10 @@ class SightAdapter (
             "drawable",
             context.packageName
         )
+        // 画像が見つからない場合のデフォルト画像を設定
+        if (imageResource == 0) {
+            imageResource = android.R.drawable.ic_menu_gallery
+        }
         holder.image.setImageResource(imageResource)
         holder.itemView.setOnClickListener {
             listener?.invoke(position)

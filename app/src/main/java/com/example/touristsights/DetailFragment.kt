@@ -47,7 +47,7 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
-        val sights = getSights(resources)
+        val sights = getSights(requireContext())
         binding.detailKind.text = sights[position].kind
         binding.detailName.text = sights[position].name
         binding.detailDescription.text = sights[position].description
@@ -56,7 +56,13 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
             "drawable",
             requireActivity().packageName
         )
-        binding.detailImage.setImageResource(img)
+        // 画像が見つからない場合のデフォルト処理
+        if (img != 0) {
+            binding.detailImage.setImageResource(img)
+        } else {
+            binding.detailImage.setImageResource(android.R.drawable.ic_menu_gallery)
+        }
+
         // MapViewの初期化と設定
         try {
             mapView = binding.mapView
@@ -70,7 +76,7 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(map: GoogleMap) {
-        val sights = getSights(resources)
+        val sights = getSights(requireContext())
         googleMap = map
 
         val location = LatLng(sights[position].lat, sights[position].lng)
