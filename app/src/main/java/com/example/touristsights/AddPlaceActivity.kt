@@ -94,12 +94,14 @@ class AddPlaceActivity : AppCompatActivity() {
         val lng = binding.lngEditText.text.toString().trim().toDouble()
 
         val newSight = Sight(
+            id = (getAllSights(this).maxOfOrNull { it.id } ?: 0) + 1,
             name = name,
             imageName = imageName,
             description = description,
             kind = kind,
             lat = lat,
-            lng = lng
+            lng = lng,
+            visible = true
         )
 
         try {

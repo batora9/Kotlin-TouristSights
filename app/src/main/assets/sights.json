@@ -1,178 +1,222 @@
 [
   {
+    "id": 1,
     "name": "アンコール・ワット",
     "imageName": "angkor",
     "description": "アンコール・ワットは、カンボジア北西部に位置するユネスコの世界遺産であるアンコール遺跡の一つであり、その遺跡群を代表する寺院。ヒンドゥー教寺院として作られたが、16世紀後半に仏教寺院に改修され、現在も上座部仏教寺院となっている。",
     "kind": "文化遺産",
     "lat": 13.4125,
-    "lng": 103.8670
+    "lng": 103.8670,
+    "visible": true
   },
   {
+    "id": 2,
     "name": "ホースシューベンド",
     "imageName": "horseshoebend",
     "description": "ホースシューベンド（Horseshoe Bend）とは、アメリカ合衆国アリゾナ州ページの町付近にある、コロラド川が蹄鉄（horseshoe）の形に穿入蛇行している場所の名前である。",
     "kind": "自然・公園",
     "lat": 36.8791,
-    "lng": -111.5100
+    "lng": -111.5100,
+    "visible": true
   },
   {
+    "id": 3,
     "name": "サグラダ・ファミリア",
     "imageName": "sagrada",
     "description": "サグラダ・ファミリアは、スペインのバルセロナにあるカトリック教会のバシリカ。アントニ・ガウディの未完作品であり、バルセロナ市のシンボルである。",
     "kind": "教会・寺院",
     "lat": 41.4036,
-    "lng": 2.1744
+    "lng": 2.1744,
+    "visible": true
   },
   {
+    "id": 4,
     "name": "セリャラントスフォス",
     "imageName": "seljalandsfoss",
     "description": "セリャラントスフォスは、アイスランド南部にある滝。直瀑に分類され、裏見の滝として有名。",
     "kind": "自然・公園",
     "lat": 63.6156,
-    "lng": -19.9925
+    "lng": -19.9925,
+    "visible": true
   },
   {
+    "id": 5,
     "name": "オルセー美術館",
     "imageName": "paris",
     "description": "オルセー美術館は、フランスのパリにある19世紀美術専門の美術館である。印象派の画家の作品が多い。",
     "kind": "美術館・博物館",
     "lat": 48.8600,
-    "lng": 2.3266
+    "lng": 2.3266,
+    "visible": true
   },
   {
+    "id": 6,
     "name": "チヴィタ・ディ・バーニョレージョ",
     "imageName": "civita",
     "description": "チヴィタ・ディ・バーニョレージョは、イタリア共和国ラツィオ州にある分離集落。「死にゆく町」とも呼ばれる。",
     "kind": "自然・公園",
     "lat": 42.6278,
-    "lng": 12.1042
+    "lng": 12.1042,
+    "visible": true
   },
   {
+    "id": 7,
     "name": "エアーズロック",
     "imageName": "uluru",
     "description": "オーストラリア先住民にとって神聖な土地。巨大な一枚岩で世界的に有名。",
     "kind": "自然・公園",
     "lat": -25.3444,
-    "lng": 131.0369
+    "lng": 131.0369,
+    "visible": true
   },
   {
+    "id": 8,
     "name": "秦始皇兵馬俑博物館",
     "imageName": "terracotta",
     "description": "始皇帝陵兵馬俑坑で知られる中国の博物館。約8000体の俑が確認されている。",
     "kind": "美術館・博物館",
     "lat": 34.3853,
-    "lng": 109.2786
+    "lng": 109.2786,
+    "visible": true
   },
   {
+    "id": 9,
     "name": "サムイ島",
     "imageName": "samui",
     "description": "タイ王国南部に属する島。ビーチリゾートとして人気が高い。",
     "kind": "自然・公園",
     "lat": 9.5120,
-    "lng": 100.0130
+    "lng": 100.0130,
+    "visible": true
   },
   {
+    "id": 10,
     "name": "カナディアン・ロッキー山脈自然公園",
     "imageName": "alberta",
     "description": "カナダ国内にあるロッキー山脈。複数の国立公園を含み世界遺産に登録されている。",
     "kind": "自然・公園",
     "lat": 51.4968,
-    "lng": -115.9281
+    "lng": -115.9281,
+    "visible": true
   },
   {
+    "id": 11,
     "name": "クリムトゥ山",
     "imageName": "kelimutu",
     "description": "インドネシア・フローレス島にある火山。三色の火口湖で有名。",
     "kind": "自然・公園",
     "lat": -8.7692,
-    "lng": 121.8214
+    "lng": 121.8214,
+    "visible": true
   },
   {
+    "id": 12,
     "name": "アンテロープ・キャニオン",
     "imageName": "antelope",
     "description": "アメリカ合衆国アリゾナ州にあるスロット・キャニオン。写真撮影の名所。",
     "kind": "自然・公園",
     "lat": 36.8619,
-    "lng": -111.3743
+    "lng": -111.3743,
+    "visible": true
   },
   {
+    "id": 13,
     "name": "イエローストーン国立公園",
     "imageName": "yellowstone",
     "description": "アメリカ合衆国最初の国立公園。間欠泉や野生動物で有名。",
     "kind": "自然・公園",
     "lat": 44.4280,
-    "lng": -110.5885
+    "lng": -110.5885,
+    "visible": true
   },
   {
+    "id": 14,
     "name": "ナイアガラの滝",
     "imageName": "canada",
     "description": "カナダとアメリカの国境にある大瀑布。世界的な観光地。",
     "kind": "自然・公園",
     "lat": 43.0799,
-    "lng": -79.0747
+    "lng": -79.0747,
+    "visible": true
   },
   {
+    "id": 15,
     "name": "ウユニ塩原",
     "imageName": "uyuni",
     "description": "ボリビアにある世界最大の塩原。「天空の鏡」として知られる。",
     "kind": "自然・公園",
     "lat": -20.1338,
-    "lng": -67.4891
+    "lng": -67.4891,
+    "visible": true
   },
   {
+    "id": 16,
     "name": "サン・ピエトロ大聖堂",
     "imageName": "vatican",
     "description": "バチカン市国にあるカトリック教会の総本山。",
     "kind": "教会・寺院",
     "lat": 41.9022,
-    "lng": 12.4539
+    "lng": 12.4539,
+    "visible": true
   },
   {
+    "id": 17,
     "name": "ランペドゥーザ島",
     "imageName": "lampedusa",
     "description": "イタリア領最南端の島。透明度の高い海で知られる。",
     "kind": "自然・公園",
     "lat": 35.5020,
-    "lng": 12.6180
+    "lng": 12.6180,
+    "visible": true
   },
   {
+    "id": 18,
     "name": "モン・サン＝ミシェル",
     "imageName": "montsaintmichel",
     "description": "フランス西海岸にある修道院と小島。世界遺産に登録されている。",
     "kind": "文化遺産",
     "lat": 48.6360,
-    "lng": -1.5115
+    "lng": -1.5115,
+    "visible": true
   },
   {
+    "id": 19,
     "name": "リッフェル湖",
     "imageName": "riffelsee",
     "description": "スイス・ツェルマットにある湖。逆さマッターホルンで有名。",
     "kind": "自然・公園",
     "lat": 45.9833,
-    "lng": 7.7500
+    "lng": 7.7500,
+    "visible": true
   },
   {
+    "id": 20,
     "name": "ヴァトナヨークトル氷河",
     "imageName": "iceland",
     "description": "アイスランドで最大の氷河。国土の8%を覆っている。",
     "kind": "自然・公園",
     "lat": 64.3261,
-    "lng": -16.7968
+    "lng": -16.7968,
+    "visible": true
   },
   {
+    "id": 21,
     "name": "ザキントス島",
     "imageName": "zakynthos",
     "description": "ギリシャのイオニア海にある島。美しい海岸で知られる。",
     "kind": "自然・公園",
     "lat": 37.7870,
-    "lng": 20.8999
+    "lng": 20.8999,
+    "visible": true
   },
   {
+    "id": 22,
     "name": "パムッカレ",
     "imageName": "turkey",
     "description": "トルコの「綿の宮殿」と呼ばれる石灰棚の温泉地。",
     "kind": "自然・公園",
     "lat": 37.9240,
-    "lng": 29.1210
+    "lng": 29.1210,
+    "visible": true
   }
 ]

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.touristsights.databinding.FragmentDetailBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -45,6 +46,28 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
         // backButtonで戻る
         binding.backButton.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
+        // 削除ボタン
+        binding.deleteSightButton.setOnClickListener {
+            val sights = getSights(requireContext())
+            val sightId = sights[position].id
+
+            // 確認ダイアログ
+             val builder = android.app.AlertDialog.Builder(requireContext())
+             builder.setTitle("確認")
+             builder.setMessage("本当に削除しますか？")
+             builder.setPositiveButton("はい") { _, _ ->
+                 val sights = getSights(requireContext())
+                 val sightId = sights[position].id
+                 invisibleSight(requireContext(), sightId)
+                 // 削除確認のトースト表示
+                 Toast.makeText(requireContext(), "観光地を削除しました", Toast.LENGTH_SHORT).show()
+                 // 前の画面に戻る
+                 requireActivity().onBackPressedDispatcher.onBackPressed()
+             }
+             builder.setNegativeButton("いいえ", null)
+             builder.show()
         }
 
         val sights = getSights(requireContext())

@@ -102,6 +102,7 @@
             android:layout_width="84dp"
             android:layout_height="40dp"
             android:hint="緯度"
+            android:inputType="numberDecimal|numberSigned"
             app:layout_constraintBottom_toBottomOf="@+id/lngEditText"
             app:layout_constraintEnd_toStartOf="@+id/lngEditText"
             app:layout_constraintHorizontal_bias="0.5"
