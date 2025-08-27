@@ -1,12 +1,14 @@
 package com.example.touristsights
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import java.io.File
 
 class SightAdapter (
     private val context: Context,
@@ -41,18 +43,42 @@ class SightAdapter (
         holder.name.text = sights[position].name
         holder.description.text = sights[position].description
         holder.kind.text = sights[position].kind
-        var imageResource = context.resources.getIdentifier(
-            sights[position].imageName,
+
+        // 画像の読み込み処理を改善
+        loadImage(holder.image, sights[position].imageName)
+
+        holder.itemView.setOnClickListener {
+            listener?.invoke(position)
+        }
+    }
+
+    private fun loadImage(imageView: ImageView, imageName: String) {
+        // まず、撮影した画像ファイルをチェック
+        val picturesDir = File(context.getExternalFilesDir("Pictures"), imageName)
+
+        if (picturesDir.exists()) {
+            // 撮影した画像ファイルが存在する場合
+            try {
+                val bitmap = BitmapFactory.decodeFile(picturesDir.absolutePath)
+                imageView.setImageBitmap(bitmap)
+                return
+            } catch (e: Exception) {
+                // ファイル読み込みに失敗した場合、drawableリソースを試す
+            }
+        }
+
+        // drawableリソースをチェック
+        val imageResource = context.resources.getIdentifier(
+            imageName.substringBeforeLast('.'), // 拡張子を除去
             "drawable",
             context.packageName
         )
-        // 画像が見つからない場合のデフォルト画像を設定
-        if (imageResource == 0) {
-            imageResource = android.R.drawable.ic_menu_gallery
-        }
-        holder.image.setImageResource(imageResource)
-        holder.itemView.setOnClickListener {
-            listener?.invoke(position)
+
+        if (imageResource != 0) {
+            imageView.setImageResource(imageResource)
+        } else {
+            // デフォルト画像を設定
+            imageView.setImageResource(android.R.drawable.ic_menu_gallery)
         }
     }
 

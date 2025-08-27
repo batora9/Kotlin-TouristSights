@@ -1,5 +1,6 @@
 package com.example.touristsights
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import java.io.File
 
 const val ROW_POSITION = "ROW_POSITION"
 
@@ -50,9 +52,6 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
 
         // 削除ボタン
         binding.deleteSightButton.setOnClickListener {
-            val sights = getSights(requireContext())
-            val sightId = sights[position].id
-
             // 確認ダイアログ
              val builder = android.app.AlertDialog.Builder(requireContext())
              builder.setTitle("確認")
@@ -74,17 +73,9 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
         binding.detailKind.text = sights[position].kind
         binding.detailName.text = sights[position].name
         binding.detailDescription.text = sights[position].description
-        val img = resources.getIdentifier(
-            sights[position].imageName,
-            "drawable",
-            requireActivity().packageName
-        )
-        // 画像が見つからない場合のデフォルト処理
-        if (img != 0) {
-            binding.detailImage.setImageResource(img)
-        } else {
-            binding.detailImage.setImageResource(android.R.drawable.ic_menu_gallery)
-        }
+
+        // 画像の読み込み処理を改善
+        loadDetailImage(sights[position].imageName)
 
         // MapViewの初期化と設定
         try {
@@ -95,6 +86,36 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
             // MapView初期化に失敗した場合、MapViewを非表示にする
             binding.mapView.visibility = View.GONE
             e.printStackTrace()
+        }
+    }
+
+    private fun loadDetailImage(imageName: String) {
+        // まず、撮影した画像ファイルをチェック
+        val picturesDir = File(requireContext().getExternalFilesDir("Pictures"), imageName)
+
+        if (picturesDir.exists()) {
+            // 撮影した画像ファイルが存在する場合
+            try {
+                val bitmap = BitmapFactory.decodeFile(picturesDir.absolutePath)
+                binding.detailImage.setImageBitmap(bitmap)
+                return
+            } catch (e: Exception) {
+                // ファイル読み込みに失敗した場合、drawableリソースを試す
+            }
+        }
+
+        // drawableリソースをチェック
+        val imageResource = resources.getIdentifier(
+            imageName.substringBeforeLast('.'), // 拡張子を除去
+            "drawable",
+            requireActivity().packageName
+        )
+
+        if (imageResource != 0) {
+            binding.detailImage.setImageResource(imageResource)
+        } else {
+            // デフォルト画像を設定
+            binding.detailImage.setImageResource(android.R.drawable.ic_menu_gallery)
         }
     }
 
