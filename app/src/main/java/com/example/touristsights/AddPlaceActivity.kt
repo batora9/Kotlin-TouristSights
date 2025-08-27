@@ -8,11 +8,12 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.example.touristsights.databinding.ActivityAddPlaceBinding
@@ -27,7 +28,7 @@ class AddPlaceActivity : AppCompatActivity() {
     private var currentImageFileName: String? = null
 
     private lateinit var takePictureLauncher: ActivityResultLauncher<Intent>
-    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+    private lateinit var requestCameraPermissionLauncher: ActivityResultLauncher<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +36,7 @@ class AddPlaceActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupActivityResultLaunchers()
+        setupSpinner()
 
         binding.cancelButton.setOnClickListener {
             finish()
@@ -54,16 +56,22 @@ class AddPlaceActivity : AppCompatActivity() {
             } else {
                 // エラーをまとめてダイアログ表示
                 val errorMessage = validateInput().joinToString("\n")
-                val builder = android.app.AlertDialog.Builder(this)
-                builder.setTitle("入力エラー")
-                val messageView = android.widget.TextView(this)
-                messageView.text = errorMessage
-                messageView.setTextColor(android.graphics.Color.RED)
-                builder.setView(messageView)
-                builder.setPositiveButton("OK", null)
-                builder.show()
+                AlertDialog.Builder(this)
+                    .setTitle("入力エラー")
+                    .setMessage("入力に誤りがあります:\n$errorMessage")
+                    .setPositiveButton("OK", { dialog, id ->
+                        dialog.dismiss()
+                    })
+                    .show()
             }
         }
+    }
+
+    private fun setupSpinner() {
+        val sightKinds = resources.getStringArray(R.array.sight_kinds)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, sightKinds)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.kindsSpinner.adapter = adapter
     }
 
     private fun setupActivityResultLaunchers() {
@@ -80,7 +88,7 @@ class AddPlaceActivity : AppCompatActivity() {
             }
         }
 
-        requestPermissionLauncher = registerForActivityResult(
+        requestCameraPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted ->
             if (isGranted) {
@@ -99,7 +107,18 @@ class AddPlaceActivity : AppCompatActivity() {
     }
 
     private fun requestCameraPermission() {
-        requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+        requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+    }
+
+    private fun checkLocationPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED ||
+        ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun openCamera() {
@@ -155,10 +174,6 @@ class AddPlaceActivity : AppCompatActivity() {
             errors.add("説明を入力してください")
         }
 
-        if (binding.kindEditText.text.toString().trim().isEmpty()) {
-            errors.add("種類を入力してください")
-        }
-
         if (binding.imageNameEditText.text.toString().trim().isEmpty()) {
             errors.add("画像名を入力してください")
         }
@@ -197,7 +212,6 @@ class AddPlaceActivity : AppCompatActivity() {
     private fun addNewSight() {
         val name = binding.nameEditText.text.toString().trim()
         val description = binding.descriptionEditText.text.toString().trim()
-        val kind = binding.kindEditText.text.toString().trim()  // kindAutoCompleteからkindEditTextに変更
         val imageName = binding.imageNameEditText.text.toString().trim()
         val lat = binding.latEditText.text.toString().trim().toDouble()
         val lng = binding.lngEditText.text.toString().trim().toDouble()
@@ -207,7 +221,7 @@ class AddPlaceActivity : AppCompatActivity() {
             name = name,
             imageName = imageName,
             description = description,
-            kind = kind,
+            kind = binding.kindsSpinner.selectedItem.toString(),
             lat = lat,
             lng = lng,
             visible = true

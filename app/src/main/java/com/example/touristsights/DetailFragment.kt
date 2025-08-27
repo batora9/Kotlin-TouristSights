@@ -1,5 +1,6 @@
 package com.example.touristsights
 
+import android.app.AlertDialog
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -52,21 +53,23 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
 
         // 削除ボタン
         binding.deleteSightButton.setOnClickListener {
-            // 確認ダイアログ
-             val builder = android.app.AlertDialog.Builder(requireContext())
-             builder.setTitle("確認")
-             builder.setMessage("本当に削除しますか？")
-             builder.setPositiveButton("はい") { _, _ ->
-                 val sights = getSights(requireContext())
-                 val sightId = sights[position].id
-                 invisibleSight(requireContext(), sightId)
-                 // 削除確認のトースト表示
-                 Toast.makeText(requireContext(), "観光地を削除しました", Toast.LENGTH_SHORT).show()
-                 // 前の画面に戻る
-                 requireActivity().onBackPressedDispatcher.onBackPressed()
-             }
-             builder.setNegativeButton("いいえ", null)
-             builder.show()
+            // 確認ダイアログを表示
+            AlertDialog.Builder(requireContext())
+                .setTitle("カードの削除")
+                .setMessage("本当に削除しますか？")
+                .setPositiveButton("OK", { dialog, id ->
+                    val sights = getSights(requireContext())
+                    val sightId = sights[position].id
+                    invisibleSight(requireContext(), sightId)
+                    // 削除確認のトースト表示
+                    Toast.makeText(requireContext(), "削除しました", Toast.LENGTH_SHORT).show()
+                    // 前の画面に戻る
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                })
+                .setNegativeButton("キャンセル", { dialog, id ->
+                    dialog.dismiss()
+                })
+                .show()
         }
 
         val sights = getSights(requireContext())

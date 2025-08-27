@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Tourist Sights</string>
     <!-- TODO: Remove or change this placeholder text -->
+
+    <string-array name="sight_kinds">
+        <item>文化遺産</item>
+        <item>自然・公園</item>
+        <item>教会・寺院</item>
+        <item>美術館・博物館</item>
+        <item>その他</item>
+    </string-array>
 </resources>
