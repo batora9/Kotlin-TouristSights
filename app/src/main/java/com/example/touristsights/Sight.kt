@@ -10,7 +10,9 @@ class Sight (
     val name: String,
     val imageName: String,
     val description: String,
-    val kind: String
+    val kind: String,
+    val lat: Double,
+    val lng: Double
 )
 
 fun getSights(resources: Resources): List<Sight> {

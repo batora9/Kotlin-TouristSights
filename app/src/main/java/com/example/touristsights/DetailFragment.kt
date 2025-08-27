@@ -70,11 +70,11 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(map: GoogleMap) {
+        val sights = getSights(resources)
         googleMap = map
 
-        // 東京駅の座標を例として設定（実際の観光地の座標に変更してください）
-        val location = LatLng(35.6812, 139.7671)
-        googleMap?.addMarker(MarkerOptions().position(location).title("観光地"))
+        val location = LatLng(sights[position].lat, sights[position].lng)
+        googleMap?.addMarker(MarkerOptions().position(location).title(sights[position].name))
         googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
     }
 
