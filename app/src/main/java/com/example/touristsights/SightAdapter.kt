@@ -86,13 +86,18 @@ class SightAdapter (
     }
 
     private fun loadImage(imageView: ImageView, imageName: String) {
-        // まず、撮影した画像ファイルをチェック
+        // 撮影した画像ファイルをチェック
         val picturesDir = File(context.getExternalFilesDir("Pictures"), imageName)
 
         if (picturesDir.exists()) {
-            // 撮影した画像ファイルが存在する場合
-            val bitmap = BitmapFactory.decodeFile(picturesDir.absolutePath)
-            imageView.setImageBitmap(bitmap)
+            try {
+                // 撮影した画像ファイルが存在する場合
+                val bitmap = BitmapFactory.decodeFile(picturesDir.absolutePath)
+                imageView.setImageBitmap(bitmap)
+                return
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
 
         // drawableリソースをチェック

@@ -93,12 +93,17 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun loadDetailImage(imageName: String) {
-        // まず、撮影した画像ファイルをチェック
+        // 撮影した画像ファイルをチェック
         val picturesDir = File(requireContext().getExternalFilesDir("Pictures"), imageName)
 
         if (picturesDir.exists()) {
-            val bitmap = BitmapFactory.decodeFile(picturesDir.absolutePath)
-            binding.detailImage.setImageBitmap(bitmap)
+            try {
+                val bitmap = BitmapFactory.decodeFile(picturesDir.absolutePath)
+                binding.detailImage.setImageBitmap(bitmap)
+                return
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
 
         // drawableリソースをチェック
