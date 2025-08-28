@@ -27,6 +27,7 @@ class SightAdapter (
         notifyDataSetChanged()
     }
 
+    // 観光地の種類でフィルタリング
     fun filterByKind(kind: String) {
         // 元のリストを復元
         sights.clear()
@@ -36,6 +37,24 @@ class SightAdapter (
         } else {
             // 指定された種類の観光地のみを表示
             val filteredSights = sights.filter { it.kind == kind }
+            sights = filteredSights.toMutableList()
+            notifyDataSetChanged()
+        }
+    }
+
+    // 観光地の名前または説明でフィルタリング
+    fun filterByWord(word: String) {
+        // 元のリストを復元
+        sights.clear()
+        sights.addAll(getSights(context))
+        if (word.isEmpty()) {
+            notifyDataSetChanged()
+        } else {
+            // 名前または説明にキーワードが含まれる観光地のみを表示
+            val filteredSights = sights.filter {
+                it.name.contains(word, ignoreCase = true) ||
+                it.description.contains(word, ignoreCase = true)
+            }
             sights = filteredSights.toMutableList()
             notifyDataSetChanged()
         }
@@ -72,13 +91,8 @@ class SightAdapter (
 
         if (picturesDir.exists()) {
             // 撮影した画像ファイルが存在する場合
-            try {
-                val bitmap = BitmapFactory.decodeFile(picturesDir.absolutePath)
-                imageView.setImageBitmap(bitmap)
-                return
-            } catch (e: Exception) {
-                // ファイル読み込みに失敗した場合、drawableリソースを試す
-            }
+            val bitmap = BitmapFactory.decodeFile(picturesDir.absolutePath)
+            imageView.setImageBitmap(bitmap)
         }
 
         // drawableリソースをチェック

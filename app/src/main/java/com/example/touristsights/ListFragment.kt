@@ -64,6 +64,12 @@ class ListFragment : Fragment() {
                 override fun onNothingSelected(p0: AdapterView<*>?) {}
             }
 
+        // 観光地の名前・説明のキーワード検索の設定
+        binding.searchButton.setOnClickListener {
+            val keyword = binding.searchBox.text.toString()
+            sightAdapter.filterByWord(keyword)
+        }
+
         setupRecyclerView()
     }
 
