@@ -115,7 +115,7 @@
             android:id="@+id/latEditText"
             android:layout_width="84dp"
             android:layout_height="40dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:hint="緯度"
             android:inputType="numberDecimal|numberSigned"
             app:layout_constraintEnd_toStartOf="@+id/lngEditText"

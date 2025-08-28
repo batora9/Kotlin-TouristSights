@@ -7,9 +7,11 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.location.Location
+import android.location.LocationListener
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Looper
 import android.provider.MediaStore
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -33,6 +35,27 @@ class AddPlaceActivity : AppCompatActivity() {
     private lateinit var takePictureLauncher: ActivityResultLauncher<Intent>
     private lateinit var requestCameraPermissionLauncher: ActivityResultLauncher<String>
     private lateinit var requestLocatonPermissionLauncher: ActivityResultLauncher<String>
+
+    // リアルタイム位置取得用の変数
+    private var locationManager: LocationManager? = null
+    private var isLocationUpdating = false
+    private var currentLocation: Location? = null
+
+    // LocationListener の実装
+    private val locationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            currentLocation = location
+            updateLocationFields(location)
+        }
+
+        override fun onProviderEnabled(provider: String) {
+            Toast.makeText(this@AddPlaceActivity, "位置情報プロバイダーが有効になりました: $provider", Toast.LENGTH_SHORT).show()
+        }
+
+        override fun onProviderDisabled(provider: String) {
+            Toast.makeText(this@AddPlaceActivity, "位置情報プロバイダーが無効になりました: $provider", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -150,6 +173,7 @@ class AddPlaceActivity : AppCompatActivity() {
         if (location != null) {
             binding.latEditText.setText(location.latitude.toString())
             binding.lngEditText.setText(location.longitude.toString())
+            Toast.makeText(this, "位置情報を取得しました", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "位置情報の取得に失敗しました", Toast.LENGTH_SHORT).show()
         }
@@ -284,6 +308,43 @@ class AddPlaceActivity : AppCompatActivity() {
             finish()
         } catch (e: Exception) {
             Toast.makeText(this, "追加に失敗しました: ${e.message}", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun updateLocationFields(location: Location) {
+        binding.latEditText.setText(location.latitude.toString())
+        binding.lngEditText.setText(location.longitude.toString())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        startLocationUpdates()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        stopLocationUpdates()
+    }
+
+    // リアルタイム位置情報更新の開始
+    private fun startLocationUpdates() {
+        if (checkLocationPermission()) {
+            locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            isLocationUpdating = true
+            locationManager?.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                5000, // 5秒ごとに更新
+                10f, // 10メートル以上移動したら更新
+                locationListener,
+                Looper.getMainLooper()
+            )
+        }
+    }
+
+    private fun stopLocationUpdates() {
+        if (isLocationUpdating) {
+            locationManager?.removeUpdates(locationListener)
+            isLocationUpdating = false
         }
     }
 }
