@@ -97,14 +97,8 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
         val picturesDir = File(requireContext().getExternalFilesDir("Pictures"), imageName)
 
         if (picturesDir.exists()) {
-            // 撮影した画像ファイルが存在する場合
-            try {
-                val bitmap = BitmapFactory.decodeFile(picturesDir.absolutePath)
-                binding.detailImage.setImageBitmap(bitmap)
-                return
-            } catch (e: Exception) {
-                // ファイル読み込みに失敗した場合、drawableリソースを試す
-            }
+            val bitmap = BitmapFactory.decodeFile(picturesDir.absolutePath)
+            binding.detailImage.setImageBitmap(bitmap)
         }
 
         // drawableリソースをチェック
