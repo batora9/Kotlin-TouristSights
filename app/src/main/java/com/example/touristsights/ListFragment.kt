@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
@@ -40,10 +42,27 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 観光地の追加ボタンの処理
         binding.addPlaceButton.setOnClickListener {
             val intent = Intent(requireContext(), AddPlaceActivity::class.java)
             addPlaceLauncher.launch(intent)
         }
+
+        // 観光地の種類のスピナーを設定
+        binding.filteredByKindSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val selectedKind = parent?.getItemAtPosition(position).toString()
+                    sightAdapter.filterByKind(selectedKind)
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
+            }
 
         setupRecyclerView()
     }

@@ -55,11 +55,11 @@
             android:textColorHint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/searchButton"
-            app:layout_constraintStart_toEndOf="@+id/spinner"
+            app:layout_constraintStart_toEndOf="@+id/filteredByKindSpinner"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/filteredByKindSpinner"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:backgroundTint="@color/white"

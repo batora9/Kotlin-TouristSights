@@ -27,6 +27,20 @@ class SightAdapter (
         notifyDataSetChanged()
     }
 
+    fun filterByKind(kind: String) {
+        // 元のリストを復元
+        sights.clear()
+        sights.addAll(getSights(context))
+        if (kind == "すべて") {
+            notifyDataSetChanged()
+        } else {
+            // 指定された種類の観光地のみを表示
+            val filteredSights = sights.filter { it.kind == kind }
+            sights = filteredSights.toMutableList()
+            notifyDataSetChanged()
+        }
+    }
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.name)
         val image: ImageView = view.findViewById(R.id.image)
