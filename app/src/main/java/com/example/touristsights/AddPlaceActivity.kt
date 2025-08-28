@@ -169,13 +169,21 @@ class AddPlaceActivity : AppCompatActivity() {
 
 
     private fun setLocationFields() {
-        val location = getLocation(this)
-        if (location != null) {
-            binding.latEditText.setText(location.latitude.toString())
-            binding.lngEditText.setText(location.longitude.toString())
-            Toast.makeText(this, "位置情報を取得しました", Toast.LENGTH_SHORT).show()
+        if (!checkLocationPermission()) {
+            Toast.makeText(this, "位置情報の権限が必要です", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // 現在取得中の位置情報があれば使用
+        if (currentLocation != null) {
+            updateLocationFields(currentLocation!!)
+            Toast.makeText(this, "位置情報を設定しました", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this, "位置情報の取得に失敗しました", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "最新の位置情報を取得中...", Toast.LENGTH_SHORT).show()
+            // リアルタイム位置情報更新を開始
+            if (!isLocationUpdating) {
+                startLocationUpdates()
+            }
         }
     }
 
@@ -220,18 +228,6 @@ class AddPlaceActivity : AppCompatActivity() {
             binding.imagePreview.setImageBitmap(scaledBitmap)
         } catch (e: Exception) {
             Toast.makeText(this, "画像の表示に失敗しました", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    // 位置情報を取得
-    fun getLocation(context: Context): Location? {
-        val locationManager = context.getSystemService(LOCATION_SERVICE) as LocationManager
-        return if (checkLocationPermission()) {
-            val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                ?: locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-            location
-        } else {
-            null
         }
     }
 
