@@ -110,17 +110,6 @@ class AddPlaceActivity : AppCompatActivity() {
         requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
     }
 
-    private fun checkLocationPermission(): Boolean {
-        return ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED ||
-        ContextCompat.checkSelfPermission(
-            this,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
-    }
-
     private fun openCamera() {
         try {
             val photoFile = createImageFile()
@@ -138,6 +127,7 @@ class AddPlaceActivity : AppCompatActivity() {
         }
     }
 
+    // 画像ファイルを作成しパスをcurrentPhotoPathに保存
     private fun createImageFile(): File {
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val imageFileName = "JPEG_${timeStamp}_"
@@ -153,6 +143,7 @@ class AddPlaceActivity : AppCompatActivity() {
         }
     }
 
+    // 撮影した画像をプレビュー表示
     private fun displayImagePreview(imagePath: String) {
         try {
             val bitmap = BitmapFactory.decodeFile(imagePath)
