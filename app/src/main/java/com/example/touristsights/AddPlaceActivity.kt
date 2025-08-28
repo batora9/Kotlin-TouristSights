@@ -1,10 +1,13 @@
 package com.example.touristsights
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -29,6 +32,7 @@ class AddPlaceActivity : AppCompatActivity() {
 
     private lateinit var takePictureLauncher: ActivityResultLauncher<Intent>
     private lateinit var requestCameraPermissionLauncher: ActivityResultLauncher<String>
+    private lateinit var requestLocatonPermissionLauncher: ActivityResultLauncher<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +51,14 @@ class AddPlaceActivity : AppCompatActivity() {
                 openCamera()
             } else {
                 requestCameraPermission()
+            }
+        }
+
+        binding.autoInputLocationButton.setOnClickListener {
+            if (checkLocationPermission()) {
+                setLocationFields()
+            } else {
+                requestLocationPermission()
             }
         }
 
@@ -84,6 +96,7 @@ class AddPlaceActivity : AppCompatActivity() {
                     currentImageFileName?.let { fileName ->
                         binding.imageNameEditText.setText(fileName)
                     }
+
                 }
             }
         }
@@ -97,6 +110,16 @@ class AddPlaceActivity : AppCompatActivity() {
                 Toast.makeText(this, "カメラの権限が必要です", Toast.LENGTH_SHORT).show()
             }
         }
+
+        requestLocatonPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                setLocationFields()
+            } else {
+                Toast.makeText(this, "位置情報の権限が必要です", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun checkCameraPermission(): Boolean {
@@ -106,8 +129,30 @@ class AddPlaceActivity : AppCompatActivity() {
         ) == PackageManager.PERMISSION_GRANTED
     }
 
+    private fun checkLocationPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
     private fun requestCameraPermission() {
         requestCameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+    }
+
+    private fun requestLocationPermission() {
+        requestLocatonPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+    }
+
+
+    private fun setLocationFields() {
+        val location = getLocation(this)
+        if (location != null) {
+            binding.latEditText.setText(location.latitude.toString())
+            binding.lngEditText.setText(location.longitude.toString())
+        } else {
+            Toast.makeText(this, "位置情報の取得に失敗しました", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun openCamera() {
@@ -154,6 +199,18 @@ class AddPlaceActivity : AppCompatActivity() {
         }
     }
 
+    // 位置情報を取得
+    fun getLocation(context: Context): Location? {
+        val locationManager = context.getSystemService(LOCATION_SERVICE) as LocationManager
+        return if (checkLocationPermission()) {
+            val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                ?: locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+            location
+        } else {
+            null
+        }
+    }
+
     private fun validateInput(): List<String> {
         var errors = mutableListOf<String>()
 
@@ -166,7 +223,7 @@ class AddPlaceActivity : AppCompatActivity() {
         }
 
         if (binding.imageNameEditText.text.toString().trim().isEmpty()) {
-            errors.add("画像名を入力してください")
+            errors.add("写真を撮影してください")
         }
 
         val latText = binding.latEditText.text.toString().trim()
@@ -204,6 +261,7 @@ class AddPlaceActivity : AppCompatActivity() {
         val name = binding.nameEditText.text.toString().trim()
         val description = binding.descriptionEditText.text.toString().trim()
         val imageName = binding.imageNameEditText.text.toString().trim()
+        val kind = binding.kindsSpinner.selectedItem.toString()
         val lat = binding.latEditText.text.toString().trim().toDouble()
         val lng = binding.lngEditText.text.toString().trim().toDouble()
 
@@ -212,7 +270,7 @@ class AddPlaceActivity : AppCompatActivity() {
             name = name,
             imageName = imageName,
             description = description,
-            kind = binding.kindsSpinner.selectedItem.toString(),
+            kind = kind,
             lat = lat,
             lng = lng,
             visible = true

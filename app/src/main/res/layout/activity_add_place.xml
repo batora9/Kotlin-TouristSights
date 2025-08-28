@@ -103,25 +103,25 @@
             android:id="@+id/lngEditText"
             android:layout_width="84dp"
             android:layout_height="40dp"
-            android:layout_marginTop="8dp"
             android:hint="経度"
             android:inputType="numberDecimal|numberSigned"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/latEditText"
+            app:layout_constraintEnd_toStartOf="@+id/autoInputLocationButton"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/latEditText"
-            app:layout_constraintTop_toBottomOf="@+id/imageNameEditText" />
+            app:layout_constraintTop_toTopOf="@+id/latEditText" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/latEditText"
             android:layout_width="84dp"
             android:layout_height="40dp"
+            android:layout_marginTop="24dp"
             android:hint="緯度"
             android:inputType="numberDecimal|numberSigned"
-            app:layout_constraintBottom_toBottomOf="@+id/lngEditText"
             app:layout_constraintEnd_toStartOf="@+id/lngEditText"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/lngEditText" />
+            app:layout_constraintTop_toBottomOf="@+id/imageNameEditText" />
 
         <Button
             android:id="@+id/confirmButton"
@@ -140,6 +140,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/descriptionEditText" />
+
+        <Button
+            android:id="@+id/autoInputLocationButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自動入力"
+            app:layout_constraintBottom_toBottomOf="@+id/lngEditText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/lngEditText"
+            app:layout_constraintTop_toTopOf="@+id/lngEditText" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
